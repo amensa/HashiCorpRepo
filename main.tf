@@ -1,6 +1,6 @@
 provider "tfe" {
   hostname = "app.terraform.io"
-  token    = "QCfJm0Zmr49BYQ.atlasv1.KXWMrHzLex9mLLvWLws2MzLB9Lmu6lNRtRUKxhO6DzKuSFZGUTkpv83GezWnmys9Ooo"
+  token    = var.tfe_token
 }
 
 resource "tfe_organization" "test-organization" {
@@ -17,7 +17,7 @@ resource "tfe_oauth_client" "test" {
   organization     = tfe_organization.test-organization.name
   api_url          = "https://api.github.com"
   http_url         = "https://github.com"
-  oauth_token      = "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"
+  oauth_token      = var.oauth_token
   service_provider = "github"
 }
 
@@ -92,4 +92,22 @@ workspace_id    = tfe_workspace.CLI2.id
 resource "tfe_workspace_variable_set" "CLI3-workspace" {
 variable_set_id = tfe_variable_set.varset1.id
 workspace_id    = tfe_workspace.CLI3.id
+}
+
+variable "tfe_hostname" {
+  description = "The hostname of the Terraform Cloud instance"
+  type        = string
+  default     = "app.terraform.io"
+}
+
+variable "tfe_token"{
+  description = "The token for the terraform"
+  type        = string
+  default = "QCfJm0Zmr49BYQ.atlasv1.KXWMrHzLex9mLLvWLws2MzLB9Lmu6lNRtRUKxhO6DzKuSFZGUTkpv83GezWnmys9Ooo"
+}
+
+variable "oauth_token" {
+  description = "The OAuth token for GitHub integration"
+  type        = string
+  default     = "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"
 }
